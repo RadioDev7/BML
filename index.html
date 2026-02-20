@@ -3,6 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>---</title>
+    <style>
+        /* Убираем все отступы и прокрутку */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Контейнер для фото */
+        .fullscreen-image {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Стили для изображения */
+        .fullscreen-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Стили для аудио плеера (прячем его, но оставляем возможность включить звук) */
+        .audio-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 40px;
+            font-family: Arial, sans-serif;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .audio-player button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin-left: 15px;
+            transition: background 0.3s;
+        }
+
+        .audio-player button:hover {
+            background: #45a049;
+        }
+
+        .audio-player button.muted {
+            background: #f44336;
+        }
+
+        .audio-player button.muted:hover {
+            background: #d32f2f;
+        }
+
+        .audio-player span {
+            margin-right: 10px;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Компактная версия плеера (можно раскомментировать для минимализма) */
+        /*
+        .audio-player {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 8px 15px;
+            font-size: 14px;
+        }
+        
+        .audio-player button {
+            padding: 5px 15px;
+            font-size: 14px;
+        }
+        */
+    </style>
+</head>
+<body>
+    <div class="fullscreen-image">
+        <!-- Фото на весь экран -->
+        <img src="100.jpg" alt="Фото 100">
+    </div>
+
+    <!-- Аудио плеер с кнопкой управления -->
+    <div class="audio-player">
+        <span>Фон</span>
+        <button id="musicToggle" class="muted">🔇 Включить</button>
+    </div>
+
+    <!-- Аудио элемент с autoplay и loop -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="200.mp3" type="audio/mpeg">
+        Ваш браузер не поддерживает аудио элемент.
+    </audio>
+
+    <script>
+        // Автоматическое воспроизведение музыки при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            const audio = document.getElementById('bgMusic');
+            const toggleBtn = document.getElementById('musicToggle');
+            
+            // Функция для попытки воспроизведения
+            function attemptPlay() {
+                audio.play()
+                    .then(() => {
+                        console.log('играет');
+                        toggleBtn.textContent = '🔊 Выключить';
+                        toggleBtn.classList.remove('muted');
+                    })
+                    .catch(error => {
+                        console.log('Автовоспроизведение заблокировано браузером:', error);
+                        toggleBtn.textContent = '🔇 Включить';
+                        toggleBtn.classList.add('muted');
+                        
+                        // Показываем подсказку
+                        toggleBtn.textContent = '🔇 Нажмите для включения';
+                    });
+            }
+            
+            // Пытаемся включить музыку при загрузке
+            attemptPlay();
+            
+            // Обработчик кнопки
+            toggleBtn.addEventListener('click', function() {
+                if (audio.paused) {
+                    audio.play()
+                        .then(() => {
+                            toggleBtn.textContent = '🔊 Выключить';
+                            toggleBtn.classList.remove('muted');
+                        })
+                        .catch(error => {
+                            console.log('Ошибка воспроизведения:', error);
+                            alert('Не удалось воспроизвести. Попробуйте ещё раз.');
+                        });
+                } else {
+                    audio.pause();
+                    toggleBtn.textContent = '🔇 Включить';
+                    toggleBtn.classList.add('muted');
+                }
+            });
+            
+            // Дополнительная попытка включить музыку при любом клике на странице
+            // (на случай если автовоспроизведение заблокировано)
+            document.body.addEventListener('click', function once() {
+                if (audio.paused) {
+                    audio.play()
+                        .then(() => {
+                            toggleBtn.textContent = '🔊 Выключить';
+                            toggleBtn.classList.remove('muted');
+                        })
+                        .catch(e => console.log('Клик не помог:', e));
+                }
+                document.body.removeEventListener('click', once);
+            }, { once: true });
+            
+            // Обработка ошибок загрузки аудио
+            audio.addEventListener('error', function(e) {
+                console.error('Ошибка загрузки аудио:', e);
+                toggleBtn.textContent = '❌ Ошибка';
+                toggleBtn.disabled = true;
+            });
+        });
+    </script>
+</body>
+</html>
+
+<!-- Фото на весь экран 
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Black Mercury Laboratory — Лаборатория №3</title>
     <style>
         a, a:link, a:visited, a:hover, a:active, a:focus {
@@ -409,17 +595,20 @@
                 </ul>
             </div>
         </div>
-		<!-- <div ><a href="kat.png">kat</a></div> -->
+
         <div class="await-core">
             ОЖИДАЙТЕ ИНФОРМАЦИИ
         </div>
 
         <div class="frost"><a href="1.png">ключ</a></div>
     </div>
- <!-- https://youtu.be/JC0mFHN7r2c  >:( -->
+
     <div style="position: fixed; top:0; left:0; width:100%; height:100%; background: radial-gradient(circle at 50% 30%, rgba(150,200,255,0.02) 0%, #0b1d2b 100%); pointer-events: none; mix-blend-mode: multiply; z-index: 6;"></div>
 </body>
 
 </html>
+-->
+       <!-- <div ><a href="kat.png">kat</a></div> -->
+	 <!-- https://youtu.be/JC0mFHN7r2c  >:( -->
 
 
