@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> СБОЙ </title>
+    <style>
+        a, a:link, a:visited, a:hover, a:active, a:focus {
+            color: transparent !important;
+            text-decoration: none !important;
+            background: none !important;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+            text-shadow: none !important;
+            cursor: text;
+            pointer-events: auto;
+            font-style: inherit;
+            font-weight: inherit;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #1b1f22;
+            background-image: 
+                linear-gradient(0deg, rgba(70, 70, 90, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(80, 80, 100, 0.1) 1px, transparent 1px),
+                radial-gradient(circle at 20% 30%, #3a4048 0%, #0b0d0f 90%);
+            background-size: 40px 40px, 40px 40px, cover;
+            font-family: 'Inter', 'Segoe UI', 'Arial', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            position: relative;
+            color: transparent;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            border: 12px solid rgba(255, 255, 255, 0.02);
+            box-shadow: inset 0 0 60px rgba(0, 150, 200, 0.15), inset 0 0 20px #6b8b9b30;
+            mix-blend-mode: overlay;
+            z-index: 5;
+        }
+
+        .container {
+            max-width: 1400px;
+            width: 100%;
+            background: rgba(18, 22, 26, 0.9);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 2px solid #6f5542;
+            border-top-color: #a77b5a;
+            border-right-color: #4a3e33;
+            box-shadow: 
+                0 25px 40px -15px #000000dd,
+                inset 0 -10px 20px #1d2f2f,
+                inset 0 10px 20px #3f4f4f30,
+                0 0 0 2px #462e1f inset;
+            padding: 48px 60px;
+            position: relative;
+            transition: border 0.2s;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            border: 2px solid rgba(140, 80, 40, 0.25);
+            pointer-events: none;
+            background: repeating-linear-gradient(45deg, rgba(120, 70, 30, 0.1) 0px, rgba(120, 70, 30, 0.1) 10px, transparent 10px, transparent 20px);
+            mix-blend-mode: multiply;
+        }
+
+        .container::after {
+            content: '';
+            position: absolute;
+            top: 10px; left: 20px; right: 20px; bottom: 10px;
+            border-top: 1px solid #7b8b9f20;
+            border-bottom: 1px solid #7b8b9f20;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        .logo-section {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 36px;
+            filter: drop-shadow(0 4px 4px #000000) drop-shadow(0 0 6px #314d62);
+        }
+
+        .logo {
+            width: 160px;
+            height: 160px;
+            border: 8px solid #604e3c;
+            border-image: repeating-linear-gradient(45deg, #6b4f38, #392f26 10px, #6f523b 15px) 30;
+            box-shadow: 
+                0 0 0 4px #231f1b,
+                0 0 0 8px #43555f33,
+                inset 0 0 30px #232f36,
+                0 10px 20px #00000080;
+            outline: 2px solid #b59e7b30;
+            outline-offset: 4px;
+            transition: all 0.2s;
+            position: relative;
+            background: none;
+            background-color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .logo img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border: none;
+            padding: 0;
+            margin: 0;
+            transition: filter 0.05s ease, opacity 0.1s ease, transform 0.1s ease;
+        }
+
+        .img-invert {
+            filter: invert(100%) hue-rotate(180deg) contrast(150%);
+        }
+        
+        .img-glitch {
+            filter: invert(80%) hue-rotate(90deg) saturate(300%) brightness(120%);
+        }
+        
+        .img-bw {
+            filter: grayscale(100%) contrast(200%);
+        }
+        
+        .img-negative {
+            filter: invert(100%) sepia(100%) saturate(300%) hue-rotate(-50deg);
+        }
+        
+        .img-pixelate {
+            filter: invert(70%) blur(0.5px) contrast(200%);
+            image-rendering: pixelated;
+        }
+        
+        .img-crt {
+            filter: invert(90%) hue-rotate(45deg) brightness(80%) contrast(150%);
+        }
+        
+        .img-flicker {
+            animation: imgFlicker 0.1s infinite;
+        }
+        
+        @keyframes imgFlicker {
+            0% { opacity: 1; filter: invert(0%); }
+            25% { opacity: 0.7; filter: invert(100%) hue-rotate(90deg); }
+            50% { opacity: 1; filter: invert(50%) hue-rotate(180deg); }
+            75% { opacity: 0.3; filter: invert(100%) contrast(200%); }
+            100% { opacity: 1; filter: invert(0%); }
+        }
+        
+        .img-scan {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .img-scan::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: scan 1.5s infinite;
+            pointer-events: none;
+            mix-blend-mode: overlay;
+        }
+        
+        @keyframes scan {
+            0% { left: -100%; }
+            100% { left: 200%; }
+        }
+
+        .header-lab {
+            text-align: center;
+            margin-bottom: 30px;
+            border: 2px solid #5f5242;
+            background: #1f292fc0;
+            padding: 24px 10px;
+            box-shadow: inset 0 -5px 10px #10181e, 0 8px 0 #2d2f2b;
+            border-top-color: #9e8b73;
+            border-left-color: #4f443b;
+            border-right-color: #4f443b;
+            border-bottom-color: #362d24;
+        }
+
+        .company-name {
+            font-size: 2.8rem;
+            font-weight: 500;
+            letter-spacing: 10px;
+            text-transform: uppercase;
+            color: transparent;
+            text-shadow: none;
+            word-break: keep-all;
+        }
+
+        .lab-sub {
+            font-size: 1.2rem;
+            color: transparent;
+            background: #1c2e38b0;
+            display: inline-block;
+            padding: 8px 24px;
+            margin-top: 16px;
+            border-left: 6px solid #825e41;
+            border-right: 6px solid #825e41;
+            letter-spacing: 3px;
+            font-weight: 300;
+            backdrop-filter: blur(2px);
+        }
+
+        .description {
+            background: #192229e0;
+            border: 1px solid #6b5d4e;
+            border-left: 8px solid #836e56;
+            padding: 30px 32px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 10px -5px #030303, inset 0 -10px 20px #1b3c3c30;
+            color: transparent;
+            font-size: 1.1rem;
+            backdrop-filter: blur(2px);
+            position: relative;
+        }
+
+        .description p {
+            margin-bottom: 18px;
+            padding-left: 12px;
+            border-left: 2px solid #5f8f9f50;
+            color: transparent;
+        }
+
+        .description p:last-child {
+            margin-bottom: 0;
+        }
+
+        .description::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 10%; width: 80%; height: 1px;
+            background: #aac3d3;
+            opacity: 0.2;
+        }
+
+        .section-title {
+            margin: 40px 0 20px 0;
+            border-bottom: 3px solid #735f4b;
+            border-image: repeating-linear-gradient(90deg, #735f4b, #4d3e31 15px, #735f4b 25px) 30;
+            padding-bottom: 15px;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 2rem;
+            font-weight: 400;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: transparent;
+            text-shadow: none;
+            display: inline-block;
+            background: #1c2e3850;
+            padding: 8px 28px 8px 20px;
+            border-left: 6px solid #825e41;
+            backdrop-filter: blur(2px);
+        }
+        
+        .section-title::after {
+            content: '⛆';
+            position: absolute;
+            right: 10px;
+            bottom: 5px;
+            color: transparent;
+            font-size: 1.8rem;
+            opacity: 0.3;
+        }
+
+        .spec-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 22px;
+            margin: 20px 0 48px;
+        }
+
+        .spec-card {
+            flex: 1 1 260px;
+            background: #1d282f;
+            border: 2px solid #6f5842;
+            border-top-width: 4px;
+            border-top-color: #ab8b6b;
+            border-bottom-color: #3a3028;
+            padding: 28px 22px;
+            box-shadow: 
+                0 12px 0 #21211e,
+                0 15px 15px #000000,
+                inset 0 -2px 10px #1d414d;
+            transition: transform 0.1s ease, box-shadow 0.2s;
+            backdrop-filter: blur(3px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .spec-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 0 #2a302b, 0 18px 25px black, inset 0 -2px 12px #3f8ca3;
+            border-top-color: #bc9b79;
+        }
+
+        .spec-card::before {
+            content: '';
+            position: absolute;
+            top: -20px; right: -20px;
+            width: 70px; height: 70px;
+            background: radial-gradient(circle at 30% 30%, #b5d6e680, transparent 80%);
+            filter: blur(6px);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .spec-card h3 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 24px;
+            border-bottom: 2px solid #6a7f8f;
+            padding-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: transparent;
+            text-shadow: none;
+        }
+
+        .spec-list {
+            list-style: none;
+        }
+
+        .spec-list li {
+            margin-bottom: 16px;
+            padding-left: 26px;
+            position: relative;
+            font-weight: 300;
+            color: transparent;
+        }
+
+        .spec-list li::before {
+            content: '⛆';
+            position: absolute;
+            left: 0;
+            color: transparent;
+            font-size: 1.2rem;
+            text-shadow: none;
+            opacity: 0.9;
+        }
+
+        .await-core {
+            text-align: center;
+            padding: 48px 20px;
+            margin: 30px 0 35px;
+            background: #131e24f0;
+            border: 6px solid #73624e;
+            border-image: repeating-linear-gradient(45deg, #6e543e, #4c3d30 20px, #846d53 30px) 20;
+            box-shadow: 
+                0 0 0 4px #252a27 inset,
+                0 20px 20px -10px #000,
+                inset 0 0 50px #274d5e;
+            color: transparent;
+            font-size: 3.5rem;
+            font-weight: 300;
+            letter-spacing: 12px;
+            text-transform: uppercase;
+            text-shadow: none;
+            backdrop-filter: blur(4px);
+            word-break: break-word;
+        }
+
+        .await-core:hover {
+            border-color: #907b63;
+        }
+
+        .footer-panel {
+            display: none;
+        }
+
+        .frost {
+            position: absolute;
+            bottom: 15px; right: 30px;
+            font-size: 0.75rem;
+            color: transparent;
+            opacity: 0.4;
+            transform: rotate(-5deg);
+        }
+
+        @keyframes glitch-text {
+            0% { transform: translate(0); opacity: 1; text-shadow: none; }
+            20% { transform: translate(-2px, 1px); text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff; }
+            40% { transform: translate(2px, -1px); text-shadow: -2px 0 #ff00ff, 2px 0 #00ffff; }
+            60% { transform: translate(-1px, 2px); text-shadow: 3px 0 #00ffff, -3px 0 #ff00ff; }
+            80% { transform: translate(1px, -2px); text-shadow: -1px 0 #ff00ff, 1px 0 #00ffff; }
+            100% { transform: translate(0); text-shadow: none; }
+        }
+
+        .glitch-active {
+            animation: glitch-text 0.2s infinite;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 1; }
+            10% { opacity: 0.3; }
+            20% { opacity: 1; }
+            30% { opacity: 0.7; }
+            40% { opacity: 1; }
+            70% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .flicker {
+            animation: flicker 0.5s infinite;
+        }
+
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 10px cyan;
+            opacity: 0.5;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        @media (max-width: 700px) {
+            .container { padding: 24px 18px; }
+            .company-name { font-size: 1.8rem; letter-spacing: 4px; }
+            .await-core { font-size: 2.2rem; letter-spacing: 5px; }
+            .section-title h2 { font-size: 1.5rem; letter-spacing: 3px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="mainContainer">
+        <div class="logo-section">
+            <div class="logo" id="logo">
+                <img src="BML.png" alt="Black Mercury Laboratory Logo" id="glitchImage" onerror="this.style.display='none'; this.parentElement.innerHTML='⍟'; this.parentElement.style.fontSize='80px'; this.parentElement.style.color='transparent';">
+            </div>
+        </div>
+
+        <div class="header-lab">
+            <div class="company-name" id="companyName"></div>
+            <div class="lab-sub" id="labSub"></div>
+            <div style="margin-top: 8px; color: transparent; font-size: 0.9rem; letter-spacing: 3px;" id="extraHeader"></div>
+        </div>
+
+        <div class="description" id="description">
+            <p id="descP1">Л</p>
+            <p id="descP2"></a></p>
+        </div>
+
+        <div class="section-title">
+            <h2 id="sectionTitle"></h2>
+        </div>
+
+        <div class="spec-grid">
+            <div class="spec-card">
+                <h3 id="card1Title"></h3>
+                <ul class="spec-list">
+                    <li id="card1Li1"></li>
+                    <li id="card1Li2"></li>
+                </ul>
+            </div>
+            <div class="spec-card">
+                <h3 id="card2Title"></h3>
+                <ul class="spec-list">
+                    <li id="card2Li1"></li>
+                    <li id="card2Li2"></li>
+                </ul>
+            </div>
+						<div class="logo" id="logo">
+                            <a href="https://youtu.be/sM5hlrkaPSo"><img src="frend.png" alt="Black Mercury Laboratory Logo" id="glitchImage" onerror="this.style.display='none'; this.parentElement.innerHTML='⍟'; this.parentElement.style.fontSize='80px'; this.parentElement.style.color='transparent';"></a>
+            </div>
+            <div class="spec-card">
+                <h3 id="card3Title"></h3>
+                <ul class="spec-list">
+                    <li id="card3Li1">Экс.</li>
+                    <li id="card3Li2">[О]</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="await-core" id="awaitCore">
+            
+        </div>
+
+        <div class="frost" id="frost"><a href="1.png" id="frostLink"></a></div>
+    </div>
+
+    <div style="position: fixed; top:0; left:0; width:100%; height:100%; background: radial-gradient(circle at 50% 30%, rgba(150,200,255,0.02) 0%, #0b1d2b 100%); pointer-events: none; mix-blend-mode: multiply; z-index: 6;"></div>
+
+    <script>
+        (function() {
+            const CYRILLIC = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ';
+            const LATIN = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const DIGITS = '0123456789';
+            const SPECIAL = '⧫⬛⛆◉⍟⌾⍡⍢⍣⍤⍥⍨⍩⍪⍫⍬⍭⍮⍯⍰⍱⍲⍳⍴⍵⍶⍷⍸⍹⍺';
+            const GLITCH = '▒▓█▄▀░■□▪▫◊○●◘◙◦☢☣⚡⚠⌧⌼⍾';
+            
+            const ALL_CHARS = CYRILLIC + LATIN + DIGITS + SPECIAL + GLITCH;
+            
+            const elementsToFill = [
+                'companyName',
+                'labSub',
+                'extraHeader',
+                'descP1',
+                'descP2',
+                'sectionTitle',
+                'card1Title',
+                'card1Li1',
+                'card1Li2',
+                'card2Title',
+                'card2Li1',
+                'card2Li2',
+                'card3Title',
+                'card3Li1',
+                'card3Li2',
+                'awaitCore',
+                'frostLink'
+            ];
+            
+            const getRandomLength = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+            
+            const generateGlitchString = (length) => {
+                let result = '';
+                for (let i = 0; i < length; i++) {
+                    const randomIndex = Math.floor(Math.random() * ALL_CHARS.length);
+                    result += ALL_CHARS[randomIndex];
+                }
+                return result;
+            };
+            
+            const updateAllElements = () => {
+                document.getElementById('companyName').textContent = generateGlitchString(getRandomLength(15, 30));
+                document.getElementById('labSub').textContent = generateGlitchString(getRandomLength(10, 20));
+                document.getElementById('extraHeader').textContent = generateGlitchString(getRandomLength(5, 15));
+                document.getElementById('descP1').textContent = generateGlitchString(getRandomLength(30, 60));
+                document.getElementById('descP2').textContent = generateGlitchString(getRandomLength(20, 50));
+                document.getElementById('sectionTitle').textContent = generateGlitchString(getRandomLength(8, 20));
+                document.getElementById('card1Title').textContent = generateGlitchString(getRandomLength(5, 15));
+                document.getElementById('card1Li1').textContent = generateGlitchString(getRandomLength(10, 25));
+                document.getElementById('card1Li2').textContent = generateGlitchString(getRandomLength(10, 25));
+                document.getElementById('card2Title').textContent = generateGlitchString(getRandomLength(5, 15));
+                document.getElementById('card2Li1').textContent = generateGlitchString(getRandomLength(10, 25));
+                document.getElementById('card2Li2').textContent = generateGlitchString(getRandomLength(10, 25));
+                document.getElementById('card3Title').textContent = generateGlitchString(getRandomLength(5, 15));
+                document.getElementById('card3Li1').textContent = generateGlitchString(getRandomLength(8, 18));
+                document.getElementById('card3Li2').textContent = generateGlitchString(getRandomLength(8, 18));
+                document.getElementById('awaitCore').textContent = generateGlitchString(getRandomLength(10, 25));
+                document.getElementById('frostLink').textContent = generateGlitchString(getRandomLength(5, 10));
+            };
+            
+            const imgGlitchClasses = [
+                'img-invert',
+                'img-glitch',
+                'img-bw',
+                'img-negative',
+                'img-pixelate',
+                'img-crt'
+            ];
+            
+            const applyRandomImageEffect = (imgElement) => {
+                if (!imgElement || imgElement.style.display === 'none') return;
+                
+                imgGlitchClasses.forEach(cls => imgElement.classList.remove(cls));
+                
+                const randomClass = imgGlitchClasses[Math.floor(Math.random() * imgGlitchClasses.length)];
+                imgElement.classList.add(randomClass);
+                
+                if (Math.random() > 0.6) {
+                    imgElement.style.opacity = Math.random() * 0.5 + 0.5;
+                } else {
+                    imgElement.style.opacity = '1';
+                }
+                
+                if (Math.random() > 0.8) {
+                    imgElement.style.transform = `rotate(${Math.random() * 4 - 2}deg) scale(${Math.random() * 0.2 + 0.9})`;
+                } else {
+                    imgElement.style.transform = 'none';
+                }
+                
+                if (Math.random() > 0.9) {
+                    imgElement.style.filter = `invert(100%) hue-rotate(${Math.random() * 360}deg)`;
+                }
+            };
+            
+            const addRandomGlitches = () => {
+                const scanLine = document.createElement('div');
+                scanLine.className = 'scan-line';
+                scanLine.style.top = Math.random() * 100 + '%';
+                scanLine.style.opacity = Math.random() * 0.5 + 0.2;
+                document.body.appendChild(scanLine);
+                
+                setTimeout(() => {
+                    if (scanLine.parentNode) scanLine.remove();
+                }, 300);
+                
+                if (Math.random() > 0.7) {
+                    for (let i = 0; i < 5; i++) {
+                        const glitchPixel = document.createElement('div');
+                        glitchPixel.style.position = 'fixed';
+                        glitchPixel.style.width = Math.random() * 10 + 2 + 'px';
+                        glitchPixel.style.height = Math.random() * 10 + 2 + 'px';
+                        glitchPixel.style.backgroundColor = `rgba(${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255}, ${Math.random()*0.8})`;
+                        glitchPixel.style.top = Math.random() * 100 + '%';
+                        glitchPixel.style.left = Math.random() * 100 + '%';
+                        glitchPixel.style.pointerEvents = 'none';
+                        glitchPixel.style.zIndex = '9999';
+                        glitchPixel.style.boxShadow = '0 0 5px currentColor';
+                        glitchPixel.style.mixBlendMode = Math.random() > 0.5 ? 'difference' : 'normal';
+                        document.body.appendChild(glitchPixel);
+                        
+                        setTimeout(() => {
+                            if (glitchPixel.parentNode) glitchPixel.remove();
+                        }, 200);
+                    }
+                }
+            };
+            
+            const flickerBorders = () => {
+                const container = document.getElementById('mainContainer');
+                const colors = ['#ff00ff', '#00ffff', '#ffff00', '#ff0000', '#00ff00', '#ffffff'];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                if (Math.random() > 0.5) {
+                    container.style.borderColor = randomColor;
+                    container.style.borderTopColor = randomColor;
+                    container.style.borderRightColor = randomColor;
+                    container.style.borderBottomColor = randomColor;
+                    container.style.borderLeftColor = randomColor;
+                    setTimeout(() => {
+                        container.style.borderColor = '#6f5542';
+                        container.style.borderTopColor = '#a77b5a';
+                        container.style.borderRightColor = '#4a3e33';
+                        container.style.borderBottomColor = '#6f5542';
+                        container.style.borderLeftColor = '#6f5542';
+                    }, 100);
+                }
+                
+                if (Math.random() > 0.8) {
+                    container.style.transform = `translate(${Math.random()*4-2}px, ${Math.random()*4-2}px)`;
+                    setTimeout(() => {
+                        container.style.transform = 'translate(0, 0)';
+                    }, 150);
+                }
+            };
+            
+            const glitchImage = () => {
+                const img = document.getElementById('glitchImage');
+                if (img && img.style.display !== 'none') {
+                    applyRandomImageEffect(img);
+                    
+                    if (Math.random() > 0.7) {
+                        img.parentElement.classList.add('img-scan');
+                        setTimeout(() => {
+                            img.parentElement.classList.remove('img-scan');
+                        }, 500);
+                    }
+                    
+                    if (Math.random() > 0.8) {
+                        img.style.visibility = 'hidden';
+                        setTimeout(() => {
+                            img.style.visibility = 'visible';
+                        }, 50);
+                    }
+                    
+                    if (Math.random() > 0.9) {
+                        img.style.transform = `scaleX(${Math.random() * 1.5 + 0.5}) scaleY(${Math.random() * 1.5 + 0.5})`;
+                        setTimeout(() => {
+                            img.style.transform = 'none';
+                        }, 150);
+                    }
+                }
+            };
+            
+            const glitchLoop = () => {
+                updateAllElements();
+                addRandomGlitches();
+                flickerBorders();
+                glitchImage();
+                
+                const nextDelay = Math.random() * 250 + 50;
+                setTimeout(glitchLoop, nextDelay);
+            };
+            
+            const pulseLoop = () => {
+                const elements = document.querySelectorAll('.company-name, .lab-sub, .await-core, .spec-card h3');
+                elements.forEach(el => {
+                    if (Math.random() > 0.7) {
+                        el.classList.add('glitch-active');
+                        setTimeout(() => {
+                            el.classList.remove('glitch-active');
+                        }, 300);
+                    }
+                });
+                
+                if (Math.random() > 0.8) {
+                    document.querySelector('.container').classList.add('flicker');
+                    setTimeout(() => {
+                        document.querySelector('.container').classList.remove('flicker');
+                    }, 500);
+                }
+                
+                const img = document.getElementById('glitchImage');
+                if (img && Math.random() > 0.7) {
+                    const originalFilter = img.style.filter;
+                    img.style.filter = `invert(${Math.random()*100}%) hue-rotate(${Math.random()*360}deg)`;
+                    setTimeout(() => {
+                        img.style.filter = originalFilter;
+                    }, 30);
+                }
+                
+                setTimeout(pulseLoop, 200);
+            };
+            
+            setTimeout(glitchLoop, 100);
+            setTimeout(pulseLoop, 50);
+            
+            document.addEventListener('mousemove', (e) => {
+                if (Math.random() > 0.95) {
+                    const glitchText = document.createElement('div');
+                    glitchText.textContent = generateGlitchString(5);
+                    glitchText.style.position = 'fixed';
+                    glitchText.style.left = e.clientX + 'px';
+                    glitchText.style.top = e.clientY + 'px';
+                    glitchText.style.color = `rgba(${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255}, 0.8)`;
+                    glitchText.style.fontSize = '20px';
+                    glitchText.style.fontFamily = 'monospace';
+                    glitchText.style.pointerEvents = 'none';
+                    glitchText.style.zIndex = '10000';
+                    glitchText.style.transform = `rotate(${Math.random()*20-10}deg)`;
+                    glitchText.style.textShadow = '0 0 5px currentColor';
+                    glitchText.style.mixBlendMode = 'difference';
+                    document.body.appendChild(glitchText);
+                    
+                    setTimeout(() => {
+                        if (glitchText.parentNode) glitchText.remove();
+                    }, 300);
+                }
+            });
+            
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    addRandomGlitches();
+                }, i * 100);
+            }
+            
+            const fastImageGlitch = () => {
+                glitchImage();
+                setTimeout(fastImageGlitch, Math.random() * 150 + 30);
+            };
+            setTimeout(fastImageGlitch, 200);
+        })();
+    </script>
+</body>
+</html>
